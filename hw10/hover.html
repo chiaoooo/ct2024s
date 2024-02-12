@@ -24,8 +24,8 @@
     <script>
         // 设定SVG大小
         var margin = {top: 10, right: 30, bottom: 30, left: 60},
-            width = 1460 - margin.left - margin.right,
-            height = 760 - margin.top - margin.bottom;
+            width = 860 - margin.left - margin.right,
+            height = 460 - margin.top - margin.bottom;
 
         // 添加SVG到body
         var svg = d3.select("body").append("svg")
@@ -45,12 +45,32 @@
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x));
 
+            // 添加X軸標籤
+            .append("text")
+                .attr("class", "axis-label")
+                .attr("x", width) // 將標籤放置在軸的末端
+                .attr("y", -20) // 在X軸線下方一點的位置
+                .style("text-anchor", "end") // 文本對齊方式
+                .text("SSIM");
+
             // 设置Y轴比例尺
             var y = d3.scaleLinear()
                 .domain([0.38, 0.58]) // 根据实际数据范围设置
                 .range([ height, 0]);
             svg.append("g")
                 .call(d3.axisLeft(y));
+
+            // 添加Y軸以及標籤
+            svg.append("g")
+                .call(d3.axisLeft(y))
+            // 添加Y軸標籤
+            .append("text")
+                .attr("class", "axis-label")
+                .attr("transform", "rotate(-90)") // 旋轉標籤
+                .attr("y", -20) // 在Y軸線左方一點的位置
+                .attr("dy", ".71em") // 微調位置
+                .style("text-anchor", "end") // 文本對齊方式
+                .text("LPIPS");
 
             // 创建散点
             svg.append('g')
@@ -60,7 +80,7 @@
                 .append("circle")
                   .attr("cx", function (d) { return x(d.SSIM); } )
                   .attr("cy", function (d) { return y(d.LPIPS); } )
-                  .attr("r", 4)
+                  .attr("r", 6)
                   .style("fill", "#69b3a2")
 
             // 创建工具提示
@@ -87,3 +107,11 @@
     </script>
 </body>
 </html>
+
+<style>
+    .axis-label {
+    fill: #000; /* 文本顏色 */
+    font-size: 12px; /* 文本大小 */
+    font-family: sans-serif; /* 文本字體 */
+}
+</style>
