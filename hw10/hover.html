@@ -91,6 +91,11 @@
                 .attr("id", "tooltip")
                 .style("opacity", 0);
 
+            var filteredData = data.filter(function(d) {
+                return d.SSIM >= 0.45 && d.SSIM <= 0.65 && d.LPIPS >= 0.35 && d.LPIPS <= 0.60;
+            });
+
+
             svg.selectAll("circle")
                 .on("mouseover", function(d) {
                     tooltip.transition()
