@@ -21,6 +21,7 @@
     </style>
 </head>
 <body>
+    <img src="hsieh/111598002.jpg" height="300" width="300">
     <script>
         // 设定SVG大小
         var margin = {top: 10, right: 30, bottom: 30, left: 60},
@@ -75,10 +76,14 @@
                 .style("text-anchor", "end") // 文本對齊方式
                 .text("LPIPS");
 
+            var filteredData = data.filter(function(d) {
+                return d.SSIM >= 0.45 && d.SSIM <= 0.65 && d.LPIPS >= 0.35 && d.LPIPS <= 0.60;
+            });
+
             // 创建散点
             svg.append('g')
                 .selectAll("dot")
-                .data(data)
+                .data(filteredData)
                 .enter()
                 .append("circle")
                   .attr("cx", function (d) { return x(d.SSIM); } )
@@ -90,10 +95,6 @@
             var tooltip = d3.select("body").append("div")
                 .attr("id", "tooltip")
                 .style("opacity", 0);
-
-            var filteredData = data.filter(function(d) {
-                return d.SSIM >= 0.45 && d.SSIM <= 0.65 && d.LPIPS >= 0.35 && d.LPIPS <= 0.60;
-            });
 
 
             svg.selectAll("circle")
